@@ -16,12 +16,37 @@
 <title>구매 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-function fncGetList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-   	document.detailForm.submit();		
-}
+//function fncGetList(currentPage) {
+//	document.getElementById("currentPage").value = currentPage;
+//   	document.detailForm.submit();		
+//}
+	$(function(){
+		
+		console.log($(".ct_list_pop td:nth-child(7)").html());
+		
+		$(".ct_list_pop td:nth-child(7)").css("color", "teal");
+		
+		console.log($($(".ct_list_pop td")[2]).html());
+		
+		$(".ct_list_pop td:nth-child(7)").bind('click', function(){
+			
+			//$(".ct_list_pop td").each(function(index){
+				
+			//	console.log("index : "+index+", html : "+$(this).html());
+			//})
+			
+			$(this)
+			$(".tr_no:eq(0)").each(function(index){
+				console.log("index : "+index+", html : "+$(this).html());
+			})
+			
+			console.log($(this).html());
+			console.log("tranNo : :"+$($(".ct_list_pop td")[2]).text().trim());
+			self.location="/purchase/updatePurchaseView?tranNo="+$($(".ct_list_pop td")[2]).html().trim();
+		});
+	});
 </script>
 </head>
 
@@ -52,7 +77,9 @@ function fncGetList(currentPage) {
 		<td colspan="11">전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지</td>
 	</tr>
 	<tr>
-		<td class="ct_list_b" width="100">No</td>
+		<td class="ct_list_b" width="50">NO</td>
+		<td class="ct_line02"></td>
+		<td class="ct_list_b" width="100">주문번호</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">주문날짜</td>
 		<td class="ct_line02"></td>
@@ -63,26 +90,23 @@ function fncGetList(currentPage) {
 		<td class="ct_list_b">배송현황</td>
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">정보수정</td>
+		<td class="ct_line02"></td>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-	<%-- <%
-		int no = list.size();
-		for(int i = 0; i < list.size(); i++) {
-			Purchase purchase = (Purchase)list.get(i);
-			String tranCode = purchase.getTranCode();
-			System.out.println("::::"+tranCode);
-	%> --%>
 	
-	<%-- <c:set var="i" value="0"/> --%>
+	<c:set var="i" value="0"/>
 	<c:forEach var="purchase" items="${list}">
-	<%-- <c:set var="i" value="${i+1}"/> --%>
+	<c:set var="i" value="${i+1}"/>
 	<tr class="ct_list_pop">
 		<td align="center">
-			<%-- <a href="/getPurchase.do?tranNo=10022"><%=no-- %></a> --%>
+			${i}
+		</td>
+		<td></td>
+		<td class="tr_no" align="center">
 			<%-- <a href="/getPurchase.do?tranNo=${purchase.tranNo}">${i}</a> --%>
-			${purchase.tranNo }
+			${purchase.tranNo}
 		</td>
 		<td></td>
 		<td align="left">
@@ -96,7 +120,10 @@ function fncGetList(currentPage) {
 		<c:choose>
 			<c:when test="${purchase.tranCode == 1}">
 				<%-- <td align="left"><a href="/getProduct.do?prodNo=${purchase.purchaseProd.prodNo}&menu=search&tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a></td> --%>
-				<td align="left"><a href="/purchase/updatePurchaseView?tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a></td>
+				<td align="left">
+				<%-- <a href="/purchase/updatePurchaseView?tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a> --%>
+				${purchase.purchaseProd.prodName}
+				</td>
 				<td></td>
 			</c:when>
 			<c:otherwise>

@@ -73,6 +73,11 @@
 				$(window.parent.frames["rightFrame"].document.location).attr('href','/purchase/listPurchase')
 			})
 			
+			$( ".Depth03:contains('최근 본 상품')" ).bind('click', function(){
+				console.log ( $(this).html() ); 
+				history();
+			})
+			
 			
 		});	
 		 
@@ -175,7 +180,9 @@
 				<td class="DepthEnd">&nbsp;</td>
 			</tr>
 			<tr>
-				<td class="Depth03"><a href="javascript:history()">최근 본 상품</a></td>
+				<td class="Depth03">
+				<!-- <a href="javascript:history()">최근 본 상품</a> -->최근 본 상품
+				</td>
 			</tr>
 		</table>
 	</td>
