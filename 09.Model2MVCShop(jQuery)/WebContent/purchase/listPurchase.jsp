@@ -22,30 +22,31 @@
 //	document.getElementById("currentPage").value = currentPage;
 //   	document.detailForm.submit();		
 //}
+	
+	function fncGetList(currentPage) {
+		$("#currentPage").val(currentPage);
+		$('form').attr("method","post")
+					 .attr("action","/purchase/listPurchase")
+					 .submit();
+	}
+	
+	
 	$(function(){
 		
-		console.log($(".ct_list_pop td:nth-child(7)").html());
-		
+		console.log($($(".ct_list_pop td:nth-child(3)")[1]).html());
 		$(".ct_list_pop td:nth-child(7)").css("color", "teal");
 		
-		console.log($($(".ct_list_pop td")[2]).html());
 		
 		$(".ct_list_pop td:nth-child(7)").bind('click', function(){
 			
-			//$(".ct_list_pop td").each(function(index){
-				
-			//	console.log("index : "+index+", html : "+$(this).html());
-			//})
-			
-			$(this)
-			$(".tr_no:eq(0)").each(function(index){
-				console.log("index : "+index+", html : "+$(this).html());
-			})
-			
 			console.log($(this).html());
-			console.log("tranNo : :"+$($(".ct_list_pop td")[2]).text().trim());
-			self.location="/purchase/updatePurchaseView?tranNo="+$($(".ct_list_pop td")[2]).html().trim();
+			console.log("parent====>"+$(this).parent().index());
+			console.log("sibling/tranNo====>"+$($($(this).siblings('td'))[2]).text().trim());
+			//$(this).siblings('.tr_no').text().trim()
+			self.location="/purchase/updatePurchaseView?tranNo="+$($($(this).siblings('td'))[2]).text().trim();
 		});
+		
+		
 	});
 </script>
 </head>
@@ -54,8 +55,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<!-- <form name="detailForm" action="/listPurchase.do" method="post"> -->
-<form name="detailForm" action="/purchase/listPurchase" method="post">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -73,7 +73,6 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
-		<%-- <td colspan="11">전체 <%= resultPage.getTotalCount() %> 건수, 현재 <%= resultPage.getCurrentPage() %> 페이지</td> --%>
 		<td colspan="11">전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지</td>
 	</tr>
 	<tr>
@@ -93,7 +92,7 @@
 		<td class="ct_line02"></td>
 	</tr>
 	<tr>
-		<td colspan="11" bgcolor="808285" height="1"></td>
+		<td colspan="20" bgcolor="F7CAC9" height="1"></td>
 	</tr>
 	
 	<c:set var="i" value="0"/>
@@ -104,83 +103,59 @@
 			${i}
 		</td>
 		<td></td>
-		<td class="tr_no" align="center">
+		<td align="center">
 			<%-- <a href="/getPurchase.do?tranNo=${purchase.tranNo}">${i}</a> --%>
 			${purchase.tranNo}
 		</td>
 		<td></td>
-		<td align="left">
-			<%-- <a href="/getUser.do?userId=<%=purchase.getBuyer().getUserId() %>"><%=purchase.getBuyer().getUserId()%></a> --%>
+		<td align="center">
 			<%-- <a href="/getUser.do?userId=${purchase.buyer.userId}">${purchase.buyer.userId }</a> --%>
 			${purchase.orderDate}
 		</td>
 		<td></td>
-		<%-- <td align="left"><%= purchase.getBuyer().getUserName() %></td> --%>
 		<%-- <td align="left">${purchase.buyer.userName }</td> --%>
-		<c:choose>
-			<c:when test="${purchase.tranCode == 1}">
-				<%-- <td align="left"><a href="/getProduct.do?prodNo=${purchase.purchaseProd.prodNo}&menu=search&tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a></td> --%>
-				<td align="left">
-				<%-- <a href="/purchase/updatePurchaseView?tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a> --%>
-				${purchase.purchaseProd.prodName}
-				</td>
-				<td></td>
-			</c:when>
-			<c:otherwise>
-				<td align="left">${purchase.purchaseProd.prodName}</td>
-			<td></td>
-			</c:otherwise>
-		</c:choose>
-		<%-- <c:if test="${purchase.tranCode == 1}">
-		<td align="left"><a href="/getProduct.do?prodNo=${purchase.purchaseProd.prodNo}&menu=search&tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a></td>
-		<td></td>
-		</c:if>
-		<c:if test="${purchase.tranCode != '1'} }">
-		<td align="left">${purchase.purchaseProd.prodName}</td>
-		<td></td>
-		</c:if> --%>
-		<%-- <td align="left"><%= purchase.getBuyer().getPhone() %></td> --%>
-		<%-- <td align="left">${purchase.buyer.phone }</td> --%>
-		<td align="left">${purchase.purchaseProd.price}</td>
-		<td></td>
-		<td align="left">
-		현재
-		<%--
-			<% 
-					if(purchase.getTranCode().equals("1")) {
-			%>
-		
-						구매완료
-			<%			
-					} else if(tranCode.equals("2")) {
-			%>
-						배송중
-			<%  } else if(tranCode.equals("3")){ %>
-						배송완료
-			<%  } %>
-		 --%>
-		<c:choose>
-			<c:when test="${purchase.tranCode == 1}">
-				구매완료
-			</c:when>
-			<c:when test="${purchase.tranCode == 2 }">
-				배송중
-			</c:when>
-			<c:when test="${purchase.tranCode == 3 }">
-				배송완료
-			</c:when>
-		</c:choose>
-		상태 입니다.</td>
-		<td></td>
-		<c:if test="${purchase.tranCode == 2 }">
-		<td align="left">
-						<%-- <a href="updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=3">물건도착</a> --%>
-						<a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착</a>
+		<td align="center">
+			<c:choose>
+				<c:when test="${purchase.tranCode == 1}">
+					<a>${purchase.purchaseProd.prodName}</a>
+				</c:when>
+				<c:otherwise>
+					${purchase.purchaseProd.prodName}
+				</c:otherwise>
+			</c:choose>
 		</td>
-		</c:if>
+		<td></td>
+		<td align="center">
+			${purchase.purchaseProd.price}원
+		</td>
+		<td></td>
+		<td align="center">
+			<c:choose>
+				<c:when test="${purchase.tranCode == 1}">
+					구매완료
+				</c:when>
+				<c:when test="${purchase.tranCode == 2 }">
+					배송중
+				</c:when>
+				<c:when test="${purchase.tranCode == 3 }">
+					배송완료
+				</c:when>
+			</c:choose>
+		</td>
+		<td></td>
+		<td align="center">
+			<c:if test="${purchase.tranCode == 2 }">
+				<%-- <a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착</a> --%>
+				물건도착
+			</c:if>
+			<c:if test="${purchase.tranCode != 2}">
+				대기
+			</c:if>
+		</td>
+		<td></td>
 	</tr>
 	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+		<td colspan="20" bgcolor="F7CAC9" height="1"></td>
 	</tr>
 	</c:forEach>
 </table>
@@ -189,19 +164,6 @@
 	<tr>
 		<td align="center">
 		<input type="hidden" id="currentPage" name="currentPage" value=""/>
-		<%-- <%if(resultPage.getCurrentPage() <= resultPage.getPageUnit()) { %>
-				◁
-		<%} else { %>
-				<a href="listPurchase.do?currentPage=<%=resultPage.getBeginUnitPage()-1%>">◀</a>
-		<%} %>
-		<%for(int i = resultPage.getBeginUnitPage(); i <= resultPage.getEndUnitPage(); i++) { %>
-			<a href="/listPurchase.do?currentPage=<%=i%>"><%=i %></a> 
-		<%} %>
-		<%if(resultPage.getEndUnitPage() < resultPage.getMaxPage()) { %>
-				<a href="/listPurchase.do?currentPage=<%=resultPage.getEndUnitPage()+1%>">▶</a>
-		<%} else { %>
-				▷
-		<%} %> --%>
 		<c:import var="importPage" url="/common/pageNavigator.jsp"/>
 		${importPage}
 		</td>

@@ -12,13 +12,58 @@
 
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
-
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-<!--
-function fncUpdatePurchase() {
-   	document.updatePurchaseForm.submit();		
-}
--->
+	function funcUpdatePurchase() {
+		
+		var name = $($("input:text")[0]).val();
+		var phone = $($("input:text")[1]).val();
+		var addr = $($("input:text")[2]).val();
+		
+		console.log(name+":"+phone+":"+addr);
+		
+		if(name == null || name.length < 1) {
+			alert("받는 사람 이름을 입력해주세요");
+			return;
+		}
+		if(phone == null || phone.length < 1) {
+			alert("연락처는 꼭 입력하셔야 합니다");
+			return;
+		}
+		if(addr == null || addr.length < 1) {
+			alert("배송지를 입력해주세요");
+			return;
+		}
+		
+		var result = confirm("수정하시겠습니까?");
+		if(result) {
+			$('form').attr("method","post")
+						 .attr("action","/purchase/updatePurchase")
+						 .submit();
+		} else {
+			return;
+		}
+	}
+	
+	$(function(){
+		
+		$(".ct_btn01:contains('수정')").bind('click', function(){
+			console.log($(this).html());
+			fncUpdatePurchase();
+		});
+		
+		$(".ct_btn01:contains('취소')").bind('click', function(){
+			var result = confirm("정말로 취소하시겠습니까?");
+			if(result) {
+				console.log($(this).html());
+				window.history.back();
+			} else {
+				return;
+			}
+		});
+		
+	});
+	
 </script>
 </head>
 
@@ -26,8 +71,7 @@ function fncUpdatePurchase() {
 
 <div style="width: 98%; margin-left: 10px;">
 
-<!-- <form name="updatePurchaseForm" action="/updatePurchase.do" method="post"> -->
-<form name="updatePurchaseForm" action="/purchase/updatePurchase" method="post">
+<form name="updatePurchaseForm">
 <input type="hidden" name="tranNo" value="${param.tranNo}"/>
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -135,7 +179,8 @@ function fncUpdatePurchase() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:fncUpdatePurchase();">수정</a>
+						<!-- <a href="javascript:fncUpdatePurchase();">수정</a> -->
+						수정
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -145,7 +190,8 @@ function fncUpdatePurchase() {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="javascript:history.go(-1)">취소</a>
+						<!-- <a href="javascript:history.go(-1)">취소</a> -->
+						취소
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>

@@ -31,6 +31,11 @@ function fncUpdatePurchase(){
 			console.log($(this).html());
 			self.location = "/purchase/listPurchase";
 		});
+		
+		$(".ct_btn01:contains('상품리스트')").bind('click', function(){
+			console.log($(this).html());
+			self.location = "/product/listProduct?menu=search";
+		});
 	});
 	
 </script>
@@ -173,6 +178,16 @@ function fncUpdatePurchase(){
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
 						<!-- <a href="/purchase/listPurchase">확인</a> -->
 						확인
+					</td>
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
+					</td>
+					<td width="30"></td>
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
+						상품리스트
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
