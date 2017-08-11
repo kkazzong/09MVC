@@ -24,44 +24,107 @@
 <title></title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-//검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-<!--
-function fncGetList(currentPage) {
-	document.getElementById("currentPage").value = currentPage;
-	document.detailForm.action="/product/listProduct?menu=${param.menu}"
-   	document.detailForm.submit();		
-}
 
-function fncGetSearchList(currentPage) {
-	var searchKeyword = document.detailForm.searchKeyword.value;
+
+
 	
-	if(searchKeyword == null || searchKeyword.length < 1) {
-		alert("검색어를 입력하십시오");
-		return;
-	} else {
-		fncGetList(currentPage);
-	}
-}
-
-function fncGetList2(currentPage) {
-	document.getElementById("searchSoldProd").value = "1";
-	fncGetList(currentPage);
-}
-
-function fncDeleteProduct(currentPage) {
-	if(confirm("정말 삭제하시겠습니까?") == true) {
-		document.getElementById("currentPage").value = currentPage;
-		document.detailForm.action="/product/deleteProduct";
-		document.detailForm.submit();
-	} else {
-		return;
+	function fncGetList(currentPage) {
+		//document.getElementById("currentPage").value = currentPage;
+		//document.detailForm.action="/product/listProduct?menu=${param.menu}"
+	   	//document.detailForm.submit();
+		console.log("선택한 페이지 : "+currentPage);
+		$("#currentPage").val(currentPage);
+		$("form[name='detailForm']").attr("method", "post")
+													 .attr("action","/product/listProduct?menu=${param.menu}")
+													 .submit();
 	}
 	
-}
+	$(function(){
+		
+		console.log($(".ct_list_pop:nth-child(4n+2)").html());
+		
+		$(".ct_list_pop:nth-child(4n+2)").css("background-color", "#F7CAC9");
+		
+		
+		var htmlStr = '<input type="text" name="searchKeyword"  value="${search.searchKeyword}" class="ct_input_g" style="width:200px; height:19px" />';
+		if($("select[name='searchCondition']").val() == null || $("select[name='searchCondition']").val() < 2) {
+			var htmlStr = '<input type="text" name="searchKeyword"  value="${search.searchKeyword}" class="ct_input_g" style="width:200px; height:19px" />';
+			console.log("select 선택"+htmlStr);
+			console.log(changeHtml);
+			$('span').html(htmlStr);
+		} else {
+			var changeHtml = "<input type='text' name='searchKeyword' value='${search.searchKeyword}' class='ct_input_g' style='width:80px; height:19px' />원~"
+				+'<input type="text" name="searchKeywordPrice"  value="${search.searchKeywordPrice}" class="ct_input_g" style="width:80px; height:19px" />원';
+				console.log(changeHtml);
+				
+				$('span').html(changeHtml);
+		}
+		
+		$(".ct_btn01:contains('검색')").bind('click', function(){
 
--->
+			console.log("검색 searchKeyword : "+$("input:text[name='searchKeyword']").val());
+			console.log("검색 searchKeywordPrice : "+$("input:text[name='searchKeywordPrice']").val());
+			
+			//var searchKeyword = document.detailForm.searchKeyword.value;
+			var searchKeyword = $("input:text[name='searchKeyword']").val();
+			
+			if(searchKeyword == null || searchKeyword.length < 1) {
+				alert("검색어를 입력하십시오");
+				return;
+			} else {
+				fncGetList(1);
+			}
+		});
+		
+		
+		$("select[name='searchCondition']").bind('change', function(){
+			console.log("select change : :  :"+$(this).html());
+			$('span').html(htmlStr);
+			
+			$("input:text[name='searchKeyword']").val('');
+			console.log("val 확인 1 : "+$("input:text[name='searchKeyword']").val());
+			
+			
+			//<input type="text" name="searchKeyword"  value="${search.searchKeyword}" class="ct_input_g" style="width:80px; height:19px" />원 ~
+			//<input type="text" name="searchKeywordPrice"  value="${search.searchKeywordPrice}" class="ct_input_g" style="width:80px; height:19px" />원
+			
+			if($(this).val() == 2) {
+				
+			$("input:text[name='searchKeywordPrice']").val('');
+			console.log("val 확인 2 : "+$("input:text[name='searchKeywordPrice']").val());
+				var changeHtml = "<input type='text' name='searchKeyword' value='${search.searchKeyword}' class='ct_input_g' style='width:80px; height:19px' />원~"
+				+"<input type='text' name='searchKeywordPrice'  value='${search.searchKeywordPrice}' class='ct_input_g' style='width:80px; height:19px' />원";
+				console.log(changeHtml);
+				
+				$('span').html(changeHtml);
+			}
+			
+			
+		});
+		
+		
+		$(".ct_btn01:contains('완판 상품 관리'), .ct_btn01:contains('판매된 상품 보기')").bind('click', function(){
+			console.log($(this).html());
+			$("#searchSoldProd").val("1");
+			self.location = "/purchase/listSale?menu=${param.menu}";
+			//fncGetList(1);
+		});
+		
+		
+		//function fncDeleteProduct(currentPage) {
+		//	if(confirm("정말 삭제하시겠습니까?") == true) {
+		//		document.getElementById("currentPage").value = currentPage;
+		//		document.detailForm.action="/product/deleteProduct";
+		//		document.detailForm.submit();
+		//	} else {
+		//		return;
+		//	}
+			
+		//}
+	});
+	
 </script>
 </head>
 
@@ -72,7 +135,7 @@ function fncDeleteProduct(currentPage) {
 
 <!-- form name="detailForm" action="/listProduct.do?menu=<%--=menu--%>" method="post"-->
 <%-- <form name="detailForm" action="/listProduct.do?menu=${param.menu}" method="post"> --%>
-<form name="detailForm"  method="post">
+<form name="detailForm">
 <%-- <form name="detailForm" action="/product/listProduct/${menu}" method="post"> --%>
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -116,14 +179,16 @@ function fncDeleteProduct(currentPage) {
 				<%-- <c:if test="${menu == 'manage'}"> --%>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01"  style="padding-top: 3px;">
 					<%-- <a href="/listSale.do?menu=${param.menu}">완판 상품 관리</a> --%>
-					<a href="/purchase/listSale?menu=${param.menu}">완판 상품 관리</a>
+					<%-- <a href="/purchase/listSale?menu=${param.menu}">완판 상품 관리</a --%>
+					완판 상품 관리
 				</td>
 				</c:if>
 				<c:if test="${param.menu == 'search'}">
 				<%-- <c:if test="${menu == 'search'}"> --%>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"  style="padding-top: 3px;">
 						<input type="hidden" id="searchSoldProd" name="searchSoldProd" value="${search.searchSoldProd}"/>
-						<a href="javascript:fncGetList2('1');">판매된 상품 보기</a>
+						<!-- <a href="javascript:fncGetList2('1');">판매된 상품 보기</a> -->
+						판매된 상품 보기
 					</td>
 					<c:if test="${search.searchSoldProd == 1}">
 						<%-- <a href="/listProduct.do?menu=${param.menu}&currentPage=1">뒤로</a> --%>
@@ -138,7 +203,7 @@ function fncDeleteProduct(currentPage) {
 		</table>
 		</td>
 		<td align="right">
-				<select name="searchCondition" class="ct_input_g" style="width:80px" onchange="javascript:fncGetList('1')">
+				<select name="searchCondition" class="ct_input_g" style="width:80px">
 					<c:if test="${param.menu == 'manage'}">
 					<%-- <c:if test="${menu == 'manage'}"> --%>
 					<option value="0" ${!empty search.searchCondition && search.searchCondition == 0 ? "selected" : ""} >상품번호</option>
@@ -146,13 +211,15 @@ function fncDeleteProduct(currentPage) {
 					<option value="1" ${!empty search.searchCondition && search.searchCondition == 1 ? "selected" : ""}>상품명</option>
 					<option value="2" ${!empty search.searchCondition && search.searchCondition == 2 ? "selected" : ""}>상품가격</option>
 				</select>
-			<c:if test="${search.searchCondition == 2}">
+			<%-- <c:if test="${search.searchCondition == 2}">
 				<input type="text" name="searchKeyword"  value="${search.searchKeyword}" class="ct_input_g" style="width:80px; height:19px" />원 ~
 				<input type="text" name="searchKeywordPrice"  value="${search.searchKeywordPrice}" class="ct_input_g" style="width:80px; height:19px" />원
-			</c:if>
-			<c:if test="${search.searchCondition < 2 || empty search.searchCondition}">
-				<input type="text" name="searchKeyword"  value="${search.searchKeyword}" class="ct_input_g" style="width:200px; height:19px" />
-			</c:if>
+			</c:if> --%>
+			<span></span>
+			<%-- <c:if test="${search.searchCondition < 2 || empty search.searchCondition}"> --%>
+				<%-- <input type="text" name="searchKeyword"  value="${search.searchKeyword}" class="ct_input_g" style="width:200px; height:19px" /> --%>
+			<%-- </c:if> --%>
+			
 		</td>
 		<td align="right" width="70">
 			<table border="0" cellspacing="0" cellpadding="0">
@@ -161,7 +228,8 @@ function fncDeleteProduct(currentPage) {
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetSearchList('1');">검색</a>
+						<!-- <a href="javascript:fncGetSearchList('1');">검색</a> -->
+						검색
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -201,8 +269,8 @@ function fncDeleteProduct(currentPage) {
 		<%-- <c:if test="${menu == 'manage'}"> --%>
 		<td class="ct_list_b"  width="150">등록일</td>	
 		<td class="ct_line02"></td>
-		<td class="ct_list_b"  width="150">변경</td>	
-		<td class="ct_line02"></td>
+	<!-- 	<td class="ct_list_b"  width="150">변경</td>	
+		<td class="ct_line02"></td> -->
 		</c:if>
 		<td class="ct_list_b"  width="150">현재상태</td>	
 		<td class="ct_line02"></td>
@@ -255,10 +323,24 @@ function fncDeleteProduct(currentPage) {
 		<td align="center">${product.regDate}</td>
 		<td></td>
 		<!--  삭제버튼 -->
-	<td align="center">
-	<a href="/product/deleteProduct?prodNo=${product.prodNo}"><input type="button" value="삭제" onclick="confirm('삭제하시겠습니까?')"></a>
+	<%-- <td align="center">
+		<table border="0" cellspacing="0" cellpadding="0">
+		<tr>
+					<td width="17" height="23">
+						<img src="/images/ct_btnbg01.gif" width="17" height="23">
+					</td>
+					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
+					<input type="hidden" name="prodNo" value="${product.prodNo}"/>
+						삭제
+					</td>
+					<td width="14" height="23">
+						<img src="/images/ct_btnbg03.gif" width="14" height="23">
+					</td>
+		</tr>	
+		</table>
+	<a href="/product/deleteProduct?prodNo=${product.prodNo}"><!-- <input type="button" value="삭제"> -->
 	</td>
-	<td></td>
+	<td></td> --%>
 		</c:if>
 		<td align="center">
 		
@@ -312,22 +394,6 @@ function fncDeleteProduct(currentPage) {
 	<tr>
 		<td align="center">
 		<input type="hidden" id="currentPage" name="currentPage" value=""/>
-		<%-- 
-		<%if(resultPage.getCurrentPage() <= resultPage.getPageUnit()) { %>
-				◀ 
-		<%} else { %>
-				<a href="javascript:fncGetProductList('<%=resultPage.getCurrentPage()-1%>');">◀</a>
-		<%} %>
-		<%for(int i = resultPage.getBeginUnitPage(); i <= resultPage.getEndUnitPage(); i++) { %>
-					<%-- <a href="/listUser.do?page=<%=i%>"><%=i %></a>%>
-					 <a href="javascript:fncGetProductList('<%=i %>');"><%=i %></a>	
-		<%} %>
-		<%if(resultPage.getEndUnitPage() >= resultPage.getMaxPage()) { %>
-				▶
-		<%} else { %>
-				<a href="javascript:fncGetProductList('<%=resultPage.getEndUnitPage()+1%>');">▶</a>
-		<%} %>
-		--%>
 		<c:import var="importPage" url="/common/pageNavigator.jsp" scope="application"/>
 		${ importPage }
 		</td>

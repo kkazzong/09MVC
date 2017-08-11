@@ -7,50 +7,55 @@
 
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
-
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-<!--
 
-
-function fncAddProduct(){
-	//Form 유효성 검증
- 	var name = document.detailForm.prodName.value;
-	var detail = document.detailForm.prodDetail.value;
-	var manuDate = document.detailForm.manuDate.value;
-	var price = document.detailForm.price.value;
-
-	if(name == null || name.length<1){
-		alert("상품명은 반드시 입력하여야 합니다.");
-		return;
-	}
-	if(detail == null || detail.length<1){
-		alert("상품상세정보는 반드시 입력하여야 합니다.");
-		return;
-	}
-	if(manuDate == null || manuDate.length<1){
-		alert("제조일자는 반드시 입력하셔야 합니다.");
-		return;
-	}
-	if(price == null || price.length<1){
-		alert("가격은 반드시 입력하셔야 합니다.");
-		return;
-	}
+	$(function(){
+		
+		$(".ct_btn01:contains('등록')").bind("click", function(){
 	
+			console.log($(this).html())
+			var name = $($("input:text")[0]).val();
+			var detail = $($("input:text")[1]).val();
+			var manuDate = $($("input:text")[2]).val();
+			var price = $($("input:text")[3]).val();
+			
+			console.log(name+":"+detail+":"+manuDate+":"+price);
+			
+			if(name == null || name.length<1){
+				alert("상품명은 반드시 입력하여야 합니다.");
+				return;
+			}
+			if(detail == null || detail.length<1){
+				alert("상품상세정보는 반드시 입력하여야 합니다.");
+				return;
+			}
+			if(manuDate == null || manuDate.length<1){
+				alert("제조일자는 반드시 입력하셔야 합니다.");
+				return;
+			}
+			if(price == null || price.length<1){
+				alert("가격은 반드시 입력하셔야 합니다.");
+				return;
+			}
+			
+			$("form[name='detailForm']").attr("method","post").attr("action","/product/addProduct").submit();
+		});
+		
+		$(".ct_btn01:contains('취소')").bind('click', function(){
+			console.log($(this).html());
+			$('form[name="detailForm"]').each(function(){
+				this.reset();
+			})
+		});
+	});
 
-	document.detailForm.action='/product/addProduct';
-	document.detailForm.submit();
-}
-
-function resetData(){
-	document.detailForm.reset();
-}
--->
 </script>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm" method="post" enctype="multipart/form-data">
+<form name="detailForm" enctype="multipart/form-data">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -162,7 +167,8 @@ function resetData(){
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01"  style="padding-top: 3px;">
-					<a href="javascript:fncAddProduct();">등록</a>
+					<!-- <a href="javascript:fncAddProduct();">등록</a> -->
+					등록
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -172,7 +178,8 @@ function resetData(){
 					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01"	 style="padding-top: 3px;">
-					<a href="javascript:resetData();">취소</a>
+					<!-- <a href="javascript:resetData();">취소</a> -->
+					취소
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
