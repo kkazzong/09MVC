@@ -245,10 +245,10 @@ public class ProductController {
 		}
 		search.setPageSize(pageSize);
 
-		if (search.getSearchCondition() != null && search.getSearchCondition().equals("1")) {
+		/*if (search.getSearchCondition() != null && search.getSearchCondition().equals("1")) {
 			byte[] keyword = search.getSearchKeyword().getBytes();
 			for (byte bytes : keyword) {
-				System.out.println("searchKeyword 확인 : " + bytes);
+				System.out.println("searchKeyword 확인(문자) : " + bytes);
 				if (bytes >= 48 && bytes <= 57) { // 숫자일때
 					search.setSearchKeyword("");
 					search.setSearchKeywordPrice("");
@@ -257,13 +257,16 @@ public class ProductController {
 		} else if (search.getSearchCondition() != null && search.getSearchCondition().equals("2")) {
 			byte[] keyword = search.getSearchKeyword().getBytes();
 			for (byte bytes : keyword) {
-				System.out.println("searchKeyword 확인 : " + bytes);
+				System.out.println("searchKeyword 확인(숫자) : " + bytes);
 				if (bytes < 48 | bytes > 57) { // 문자일때
 					search.setSearchKeyword("");
 					search.setSearchKeywordPrice("");
 				}
 			}
-		}
+		}*/
+		
+		System.out.println("change......");
+		System.out.println(search);
 
 		Map<String, Object> map = productService.getProductList(search);
 
@@ -475,4 +478,7 @@ public class ProductController {
 
 		return modelAndView;
 	}
+	
+	
+	
 }
