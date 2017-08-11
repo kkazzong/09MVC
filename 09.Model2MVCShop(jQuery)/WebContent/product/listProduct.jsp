@@ -112,6 +112,12 @@
 			//fncGetList(1);
 		});
 		
+		$(".ct_list_pop td:nth-child(3)").bind('click', function(){
+			
+			console.log($(this).html());
+			
+			self.location = "/product/getProduct?prodNo=${prodNo}&menu=${param.menu}";
+		});
 		
 		//function fncDeleteProduct(currentPage) {
 		//	if(confirm("정말 삭제하시겠습니까?") == true) {
@@ -302,7 +308,8 @@
 		
 			<c:choose>
 				<c:when test="${product.proTranCode == '0' or product.proTranCode == null }">
-					<td align="center"><a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a></td>
+					<td align="center"><%-- <a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a> --%>
+					<p>${product.prodName}</p></td>
 					<%-- <td align="left"><a href="/product/getProduct/${product.prodNo}/${menu}">${product.prodName}</a></td> --%>
 				</c:when>
 		<%--} else {--%>
