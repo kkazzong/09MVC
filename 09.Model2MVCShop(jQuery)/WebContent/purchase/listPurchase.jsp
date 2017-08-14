@@ -46,6 +46,17 @@
 			self.location="/purchase/updatePurchaseView?tranNo="+$($($(this).siblings('td'))[2]).text().trim();
 		});
 		
+		$("p").css("color","magenta");
+		
+		$("p").bind('click', function(){
+			
+			console.log($(this).html());
+			
+			console.log($("input:hidden[name='tNo']",this).val());
+			
+			self.location="/purchase/updateTranCode?tranNo="+$("input:hidden[name='tNo']",this).val()+"&tranCode=3";
+			
+		});
 		
 	});
 </script>
@@ -146,11 +157,15 @@
 		<td align="center">
 			<c:if test="${purchase.tranCode == 2 }">
 				<%-- <a href="/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">¹°°ÇµµÂø</a> --%>
-				¹°°ÇµµÂø
+				<p><input type="hidden" name="tNo" value="${purchase.tranNo}">¹°°ÇµµÂø</p>
 			</c:if>
-			<c:if test="${purchase.tranCode != 2}">
+			<c:if test="${purchase.tranCode < 2}">
 				´ë±â
 			</c:if>
+			<c:if test="${purchase.tranCode > 2}">
+				¸®ºä³²±â±â
+			</c:if>
+			
 		</td>
 		<td></td>
 	</tr>

@@ -24,8 +24,8 @@
 			
 			console.log($(this).html());
 			
-			
-			self.location = "/purchase/updateTranCodeByProd?prodNo="+""+"&tranCode=2";
+			console.log($("input:hidden[name='pNo']", this).val());
+			self.location = "/purchase/updateTranCodeByProd?prodNo="+$("input:hidden[name='pNo']", this).val()+"&tranCode=2";
 			
 		});
 		
@@ -130,11 +130,10 @@
 		<td></td>
 		<td align="left">${purchase.purchaseProd.regDate}</td>
 		<td></td>
-		<input type="hidden" name="prodNo" value="${purchase.purchaseProd.prodNo}"/>
 		<td align="left">
 		<c:choose>
 			<c:when test="${purchase.tranCode == 1}">
-				<%-- <a href="/purchase/updateTranCodeByProd?prodNo=${purchase.purchaseProd.prodNo}&tranCode=2">배송하기</a> --%>구매완료 <span>▶배송하기</span> 
+				구매완료 <span><input type="hidden" name="pNo" value="${purchase.purchaseProd.prodNo}">▶배송하기</span> 
 			</c:when>
 			<c:when test="${purchase.tranCode == 2}">
 				배송중
