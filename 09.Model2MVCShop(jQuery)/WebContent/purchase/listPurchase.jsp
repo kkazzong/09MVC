@@ -18,11 +18,7 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
-//function fncGetList(currentPage) {
-//	document.getElementById("currentPage").value = currentPage;
-//   	document.detailForm.submit();		
-//}
-	
+
 	function fncGetList(currentPage) {
 		$("#currentPage").val(currentPage);
 		$('form').attr("method","post")
@@ -37,15 +33,26 @@
 		$(".ct_list_pop td:nth-child(7)").css("color", "teal");
 		
 		
-		$(".ct_list_pop td:nth-child(7)").bind('click', function(){
+		/* $(".ct_list_pop td:nth-child(7)").bind('click', function(){
 			
 			console.log($(this).html());
 			console.log("parent====>"+$(this).parent().index());
 			console.log("sibling/tranNo====>"+$($($(this).siblings('td'))[2]).text().trim());
 			//$(this).siblings('.tr_no').text().trim()
 			self.location="/purchase/updatePurchaseView?tranNo="+$($($(this).siblings('td'))[2]).text().trim();
+		}); */
+		
+		//배송중일때 상품 수정 불가
+		$("span").bind('click', function(){
+			console.log($(this).html());
+			console.log("parent====>"+$(this).parent().index());
+			console.log("sibling/tranNo====>"+$("input:hidden[name='tNo']",this).val());
+			//$(this).siblings('.tr_no').text().trim()
+			self.location="/purchase/updatePurchaseView?tranNo="+$("input:hidden[name='tNo']",this).val();
 		});
 		
+		
+		//물건도착
 		$("p").css("color","magenta");
 		
 		$("p").bind('click', function(){
@@ -54,7 +61,12 @@
 			
 			console.log($("input:hidden[name='tNo']",this).val());
 			
-			self.location="/purchase/updateTranCode?tranNo="+$("input:hidden[name='tNo']",this).val()+"&tranCode=3";
+			var result = confirm("물건이 도착했습니까?");
+			if(result) {
+				self.location="/purchase/updateTranCode?tranNo="+$("input:hidden[name='tNo']",this).val()+"&tranCode=3";
+			} else {
+				return;
+			}
 			
 		});
 		
@@ -128,7 +140,10 @@
 		<td align="center">
 			<c:choose>
 				<c:when test="${purchase.tranCode == 1}">
-					<a>${purchase.purchaseProd.prodName}</a>
+					<span>
+					<input type="hidden" name="tNo" value="${purchase.tranNo }">
+					${purchase.purchaseProd.prodName}
+					</span>
 				</c:when>
 				<c:otherwise>
 					${purchase.purchaseProd.prodName}

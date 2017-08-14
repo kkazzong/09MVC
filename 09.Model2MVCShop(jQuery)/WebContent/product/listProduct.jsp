@@ -144,6 +144,8 @@
 			self.location="/product/getProduct?prodNo="+$("input:hidden[name='pNo']",this).val()+"&menu=${param.menu}";
 		}); 
 		
+		
+		
 		$(".ct_list_pop td:nth-child(11)").bind('click', function(){
 			
 			console.log($(this).text().trim());
@@ -156,6 +158,10 @@
 			} else {
 				return;
 			}
+		});
+		
+		$("p").bind("click", function(){
+			self.location = "/product/listProduct?menu=${param.menu}&currentPage=1";
 		});
 		
 	});
@@ -226,7 +232,8 @@
 					</td>
 					<c:if test="${search.searchSoldProd == 1}">
 						<%-- <a href="/listProduct.do?menu=${param.menu}&currentPage=1">뒤로</a> --%>
-						<a href="/product/listProduct?menu=${param.menu}&currentPage=1">뒤로</a>
+						<%-- <a href="/product/listProduct?menu=${param.menu}&currentPage=1">뒤로</a> --%>
+						<p>뒤로</p>
 						<%-- <a href="/purchase/listProduct?${menu}/${search.currentPage}">뒤로</a> --%>
 					</c:if>
 				</c:if>
@@ -368,7 +375,7 @@
 				</c:when>
 				<c:when test="${product.proTranCode == 1}">
 					<%-- 구매완료 <a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a> --%>
-					구매완료 <a href="/purchase/updateTranCodeByProd?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+					구매완료 
 				</c:when>
 				<c:when test="${product.proTranCode == 2}">
 					배송중
