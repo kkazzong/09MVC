@@ -9,11 +9,10 @@
 <head>
 <title>상품정보수정</title>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script type="text/javascript" src="../javascript/calendar.js">
-</script>
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" href="/css/admin.css" type="text/css" />  
+<link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />  
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 <!--
 function fncUpdateProduct(){
@@ -47,6 +46,16 @@ function fncUpdateProduct(){
 	
 	$(function(){
 		
+		//<!-- form tooltip -->
+		$("[title]").tooltip({
+			position : {
+				my : "left top",
+				at : "right+5 top+5",
+				collision : "none"
+			}
+		});
+		
+		
 		$(".ct_btn01:contains('수정')").bind('click', function(){
 			
 			console.log($(this).html());
@@ -57,9 +66,9 @@ function fncUpdateProduct(){
 			//var price = document.detailForm.price.value;
 
 			var name = $($("input:text")[0]).val();
-			var detail = $($("input:text")[1]).val();
-			var manuDate = $($("input:text")[2]).val();
-			var price = $($("input:text")[3]).val();
+			var detail = $("textarea").val();
+			var manuDate = $($("input:text")[1]).val();
+			var price = $($("input:text")[2]).val();
 			
 			console.log(name+":"+detail+":"+manuDate+":"+price);
 			
@@ -110,6 +119,11 @@ function fncUpdateProduct(){
 			}
 		});
 		
+		//<!-- datepicker -->
+		$("input:text[name='manuDate']").datepicker().bind('change', function(){
+			$(this).val($(this).datepicker("option","dateFormat","yy-mm-dd").val());
+		});
+		
 	});
 	
 </script>
@@ -156,7 +170,7 @@ function fncUpdateProduct(){
 					 <!--	<input 	type="text" name="prodName" class="ct_input_g" 
 										style="width: 100px; height: 19px" maxLength="20" value="<%--=product.getProdName()--%>">-->
 						<input 	type="text" name="prodName" class="ct_input_g" 
-										style="width: 100px; height: 19px" maxLength="20" value="${product.prodName}">
+										style="width: 100px; height: 19px" maxLength="20" value="${product.prodName}" title="상품명은 20자 이하로 입력해주세요">
 					</td>
 				</tr>
 			</table>
@@ -173,8 +187,9 @@ function fncUpdateProduct(){
 		<td class="ct_write01">
 			 <!--<input type="text" name="prodDetail" value="<%--=product.getProdDetail() --%>" class="ct_input_g" 
 						style="width: 100px; height: 19px" maxLength="10"	minLength="6">-->
-			<input type="text" name="prodDetail" value="${product.prodDetail}" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="10"	minLength="6">
+			<%-- <input type="text" name="prodDetail" value="${product.prodDetail}" class="ct_input_g" 
+						style="width: 100px; height: 19px" maxLength="10"	minLength="6"> --%>
+			<textarea rows="4" cols="50" name="prodDetail" class="ct_input_g" maxlength="50"  title="상세정보는 50자 이하로 입력해주세요">${product.prodDetail}</textarea>
 		</td>
 	</tr>
 	<tr>
@@ -190,10 +205,11 @@ function fncUpdateProduct(){
 						class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
 						<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
 									onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" />-->
-			<input type="text" readonly="readonly" name="manuDate" value="${product.manuDate}" 	
+			<%-- <input type="text" readonly="readonly" name="manuDate" value="${product.manuDate}" 	
 						class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
 						<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
-									onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" />
+									onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" /> --%>
+			<input type="text" name="manuDate" value="${product.manuDate}" class="ct_input_g"/>
 		</td>
 	</tr>
 	<tr>

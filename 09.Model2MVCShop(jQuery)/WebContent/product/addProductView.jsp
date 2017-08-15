@@ -2,23 +2,44 @@
 <html>
 <head>
 <title>상품등록</title>
+<link rel="stylesheet" href="/css/admin.css" type="text/css" />  
+<link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />  
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>   -->
+<!-- <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script type="text/javascript" src="../javascript/calendar.js">
-</script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
 	$(function(){
+		
+		//<!-- modal message -->
+		$("div").dialog({
+			modal : true,
+			buttons : {
+				확인 : function(){
+					$(this).dialog("close");
+				}
+			}
+		});
+		
+		
+		//<!-- form tooltip -->
+		$("[title]").tooltip({
+			position : {
+				my : "left top",
+				at : "right+5 top-5",
+				collision : "none"
+			}
+		});
 		
 		$(".ct_btn01:contains('등록')").bind("click", function(){
 	
 			console.log($(this).html())
 			var name = $($("input:text")[0]).val();
-			var detail = $($("input:text")[1]).val();
-			var manuDate = $($("input:text")[2]).val();
-			var price = $($("input:text")[3]).val();
+			var detail = $("textarea").val();
+			var manuDate = $($("input:text")[1]).val();
+			var price = $($("input:text")[2]).val();
 			
 			console.log(name+":"+detail+":"+manuDate+":"+price);
 			
@@ -48,6 +69,11 @@
 				this.reset();
 			})
 		});
+		
+		//<!-- datepicker -->
+		$("input:text[name='manuDate']").datepicker().bind('change', function(){
+			$(this).val($(this).datepicker("option","dateFormat","yy-mm-dd").val());
+		});
 	});
 
 </script>
@@ -75,7 +101,8 @@
 		</td>
 	</tr>
 </table>
-
+<!-- modal message -->
+<div>Welcome ! <br> 상품등록하기 </div>
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 13px;">
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -90,7 +117,7 @@
 				<tr>
 					<td width="105">
 						<input type="text" name="prodName" class="ct_input_g" 
-									style="width: 100px; height: 19px" maxLength="20">
+									style="width: 100px; height: 19px" maxLength="20" title="상품명은 20자 이하로 입력해주세요">
 					</td>
 				</tr>
 			</table>
@@ -105,8 +132,9 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="prodDetail" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="10" minLength="6"/>
+			<!-- <input type="text" name="prodDetail" class="ct_input_g" 
+						style="width: 100px; height: 50px" maxLength="100" minLength="6"/> -->
+			<textarea rows="4" cols="50" name="prodDetail" class="ct_input_g" maxlength="50" title="상세정보는 50자 이하로 입력해주세요"></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -118,10 +146,11 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  
+			<!-- <input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  
 						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
 				&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" 
-										onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/>
+										onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/> -->
+			<input name="manuDate" type="text" class="ct_input_g"/>
 		</td>
 	</tr>
 	<tr>
