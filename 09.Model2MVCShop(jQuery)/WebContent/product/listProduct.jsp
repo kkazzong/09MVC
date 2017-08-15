@@ -46,6 +46,24 @@
 				$('span').html(changeHtml);
 		}
 		
+		//<!-- autocomplete -->
+		var prodNameList = ["자전거","보르도","보드세트"];
+		var prodList = [];
+		$("input:text[name='searchKeyword']").autocomplete({
+			source : function( request, response ) {
+		        $.ajax( {
+		            url: "/product/json/listProduct",
+		            dataType: "json",
+		            data: {
+		              term: request.term
+		            },
+		            success: function( data ) {
+		              response( data.productList );
+		            }
+		          })
+			} 
+			
+		});
 		
 		//<!-- 검색시 엔터 -->
 		$("span").bind('keydown', function(event){
@@ -152,17 +170,13 @@
 		}); 
 		
 		//<!-- file tootip -->
-		$("a").bind('mouseover', function(){
-			console.log("mouseover");
-			console.log($(this).data('photo'));
-			$(this).tooltip({
-				items : "[data-geo]",			
+		$("a").tooltip({
+				items : "[data-photo]",			
 				content : function(){
-					console.log($(this).prop('date-geo'));
-					return "<img src='/images/uploadFiles/150309.jpg'>";
+					var path = $(this).data('photo');
+					console.log("html 태그 :: <img src='../images/uploadFiles/"+path+"'> ");
+					return "<img src='../images/uploadFiles/"+path+"'> ";
 				}
-			})
-			
 		});
 		
 		//console.log($("a").tooltip("option","content"));
@@ -356,7 +370,7 @@
 					<c:forEach var="files" items="${product.fileName}">
 						<c:set var="file" value="${files}"/>
 					</c:forEach>
-					<a data-geo="${file}">
+					<a data-photo="${file}">
 					<input type="hidden" name="pNo" value="${product.prodNo }">
 					${product.prodName}
 					</a>
