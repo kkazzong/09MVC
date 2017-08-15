@@ -6,7 +6,14 @@
 <title></title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" href="/css/jquery-ui.css" type="text/css">
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+  <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
 <script type="text/javascript">
 	
 	function fncGetList(currentPage) {
@@ -144,6 +151,21 @@
 			self.location="/product/getProduct?prodNo="+$("input:hidden[name='pNo']",this).val()+"&menu=${param.menu}";
 		}); 
 		
+		//<!-- file tootip -->
+		$("a").bind('mouseover', function(){
+			console.log("mouseover");
+			console.log($(this).data('photo'));
+			$(this).tooltip({
+				items : "[data-geo]",			
+				content : function(){
+					console.log($(this).prop('date-geo'));
+					return "<img src='/images/uploadFiles/150309.jpg'>";
+				}
+			})
+			
+		});
+		
+		//console.log($("a").tooltip("option","content"));
 		
 		
 		$(".ct_list_pop td:nth-child(11)").bind('click', function(){
@@ -331,7 +353,13 @@
 			<c:choose>
 				<c:when test="${product.proTranCode == '0' or product.proTranCode == null }">
 					<td align="center">
-					<a><input type="hidden" name="pNo" value="${product.prodNo }">${product.prodName}</a>
+					<c:forEach var="files" items="${product.fileName}">
+						<c:set var="file" value="${files}"/>
+					</c:forEach>
+					<a data-geo="${file}">
+					<input type="hidden" name="pNo" value="${product.prodNo }">
+					${product.prodName}
+					</a>
 					</td>
 					<td></td>
 				</c:when>

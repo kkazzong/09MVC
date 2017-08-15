@@ -25,8 +25,13 @@
 			console.log($(this).html());
 			
 			console.log($("input:hidden[name='pNo']", this).val());
-			self.location = "/purchase/updateTranCodeByProd?prodNo="+$("input:hidden[name='pNo']", this).val()+"&tranCode=2";
+			var result = confirm("물건을 배송하시겠습니까?");
 			
+			if(result) {
+				self.location = "/purchase/updateTranCodeByProd?prodNo="+$("input:hidden[name='pNo']", this).val()+"&tranCode=2";
+			} else {
+				return;
+			}
 		});
 		
 		$(".ct_btn01:contains('검색')").bind('click', function(){

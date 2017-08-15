@@ -9,10 +9,11 @@
 <title>구매 정보 수정 화면</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<script type="text/javascript" src="../javascript/calendar.js">
-</script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />  
+<!-- <script type="text/javascript" src="../javascript/calendar.js">
+</script> -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	function fncUpdatePurchase() {
 		
@@ -46,6 +47,11 @@
 	}
 	
 	$(function(){
+		
+		//<!-- datepicker-->
+		$("input:text[name='receiverDate']").datepicker().bind('change', function(){
+			$(this).val($(this).datepicker("option","dateFormat","yy-mm-dd").val());
+		});
 		
 		$(".ct_btn01:contains('수정')").bind('click', function(){
 			console.log($(this).html());
@@ -158,10 +164,11 @@
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" readonly="readonly" name="receiverDate" value="${purchase.receiverDate}"
+			<%-- <input type="text" readonly="readonly" name="receiverDate" value="${purchase.receiverDate}"
 						class="ct_input_g" style="width: 100px; height: 19px" maxLength="10" minLength="6">&nbsp;
 			<img 	src="../images/ct_icon_date.gif" width="15" height="15" 
-						onclick="show_calendar('document.updatePurchaseForm.receiverDate', document.updatePurchaseForm.receiverDate.value)" />
+						onclick="show_calendar('document.updatePurchaseForm.receiverDate', document.updatePurchaseForm.receiverDate.value)" /> --%>
+			<input type="text" name="receiverDate" class="ct_input_g" value="${purchase.receiverDate}"/>
 		</td>
 	</tr>
 	<tr>

@@ -8,13 +8,13 @@
 
 <head>
 	<meta charset="EUC-KR">
-	
 	<title>Model2 MVC Shop</title>
 
 	<link href="/css/left.css" rel="stylesheet" type="text/css">
-	
+<link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />  
 	<!-- CDN(Content Delivery Network) 호스트 사용 -->
-	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript">
 	
 		function history(){
@@ -25,6 +25,9 @@
 	
 		//==> jQuery 적용 추가된 부분
 		 $(function() {
+			 
+			 //<!-- menu bar -->
+			 $($("ul")[0]).menu();
 			 
 			//==> 개인정보조회 Event 연결처리부분
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -73,7 +76,7 @@
 				$(window.parent.frames["rightFrame"].document.location).attr('href','/purchase/listPurchase')
 			})
 			
-			$( ".Depth03:contains('최근 본 상품')" ).bind('click', function(){
+			$( ".Depth03:contains('최근본상품')" ).bind('click', function(){
 				console.log ( $(this).html() ); 
 				history();
 			})
@@ -82,12 +85,78 @@
 		});	
 		 
 	</script>
-	
+	<style type="text/css">
+	.ui-menu {width : 65px;}
+	.ui-menu .ui-menu {width: 90px;}
+	.Depth03 { 
+		font-size: 10px; 
+		line-height: 20px;
+		color: #505050;
+		font-weight:normal;
+		text-indent: 14px;
+		background-image: url(/sample/images/left/leftMenuDep03Bg.gif);
+		background-repeat:no-repeat;
+ 	}
+	</style>
 </head>
 
 <body background="/images/left/imgLeftBg.gif" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"  >
 
-<table width="159" border="0" cellspacing="0" cellpadding="0">
+<ul>
+	<li>
+	<c:if test="${user.role == 'admin'}">
+	<div>회원관리</div>
+	</c:if>
+	<c:if test="${user.role == 'user'}">
+	<div>마이페이지</div>
+	</c:if>
+		<ul>
+			<c:if test="${ !empty user }">
+			<li><div class="Depth03">개인정보조회</div></li>
+			</c:if>
+			<c:if test="${user.role == 'admin'}">
+			<li><div class="Depth03">회원정보조회</div></li>
+			</c:if>
+		</ul>
+	</li>
+	<li>
+	<c:if test="${user.role == 'admin'}">
+	<div>상품관리</div>
+	</c:if>
+	<c:if test="${user.role == 'user'}">
+	<div>상품보기</div>
+	</c:if>
+	<c:if test="${empty user}">
+	<div>상품보기</div>
+	</c:if>
+		<ul>
+			<c:if test="${user.role == 'admin'}">
+			<li><div class="Depth03">판매상품등록</div></li>
+			<li><div class="Depth03">판매상품관리</div></li>
+			</c:if>
+			<li><div class="Depth03">상 품 검 색</div></li>
+			<li><div class="Depth03">최근본상품</div></li>
+		</ul>
+	</li>
+	<c:if test="${user.role == 'admin'}">
+	<li>
+	<div>판매관리</div>
+		<ul>
+			<li><div class="Depth03">배 송 관 리</div></li>
+		</ul>
+	</li>
+	</c:if>
+	<c:if test="${user.role == 'user' && !empty user}">
+	<li>
+	<div>주문관리</div>
+		<ul>
+			<li><div class="Depth03">구매이력조회</div></li>
+		</ul>
+	</li>
+	</c:if>
+</ul>
+
+<%-- <table width="159" border="0" cellspacing="0" cellpadding="0">
 
 <!--menu 01 line-->
 <tr>
@@ -188,7 +257,7 @@
 	</td>
 </tr>
 
-</table>
+</table> --%>
 
 </body>
 
