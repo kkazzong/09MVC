@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -10,9 +10,11 @@
 	<title>로그인 화면</title>
 	
 	<link rel="stylesheet" href="/css/admin.css" type="text/css">
-	
+	<link rel="stylesheet" href="/css/jquery-ui.css" type="text/css">
 	<!-- CDN(Content Delivery Network) 호스트 사용 -->
-	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<!-- <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script> -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript">
 	   
 		/*=============jQuery 변경 주석처리 =============
@@ -67,7 +69,19 @@
 				//==> 위의 4실행문과 같은의미			    
 				$("form").attr("method","POST").attr("action","/user/login").attr("target","_parent").submit();
 				
+				
 			});
+			
+			<c:if test="${!empty result}">
+			$("p").dialog({
+					modal : true,
+					buttons : {
+						확인 : function(){
+							$(this).dialog("close");
+						}
+					}
+			});
+			</c:if>
 		});
 		
 		
@@ -95,7 +109,7 @@
 <TABLE WITH="100%" HEIGHT="100%" BORDER="0" CELLPADDING="0" CELLSPACING="0">
 <TR>
 <TD ALIGN="CENTER" VALIGN="MIDDLE">
-
+<p><c:if test="${!empty result}">${result ? "":"아이디/비번을 잘못 입력하셨습니다"}</c:if></p>
 <table width="650" height="390" border="5" cellpadding="0" cellspacing="0" bordercolor="#D6CDB7">
   <tr> 
     <td width="10" height="5" align="left" valign="top" bordercolor="#D6CDB7">

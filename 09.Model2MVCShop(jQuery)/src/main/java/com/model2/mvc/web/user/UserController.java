@@ -126,17 +126,21 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="login", method=RequestMethod.POST )
-	public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
+	public String login(@ModelAttribute("user") User user , HttpSession session, Model model ) throws Exception{
 		
 		System.out.println("/user/login : POST");
 		//Business Logic
 		User dbUser=userService.getUser(user.getUserId());
 		
-		if( user.getPassword().equals(dbUser.getPassword())){
+		if( user.getPassword().equals(dbUser.getPassword()) && dbUser != null){
 			session.setAttribute("user", dbUser);
+			return "redirect:/index.jsp";
+		} else {
+			model.addAttribute("result", new Boolean(false));
+			return "forward:/user/loginView.jsp";
 		}
 		
-		return "redirect:/index.jsp";
+		
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -169,13 +169,13 @@
 			self.location="/product/getProduct?prodNo="+$("input:hidden[name='pNo']",this).val()+"&menu=${param.menu}";
 		}); 
 		
-		//<!-- file tootip -->
+		//<!-- 이미지미리보기 file tootip -->
 		$("a").tooltip({
 				items : "[data-photo]",			
 				content : function(){
 					var path = $(this).data('photo');
 					console.log("html 태그 :: <img src='../images/uploadFiles/"+path+"'> ");
-					return "<img src='../images/uploadFiles/"+path+"'> ";
+					return "<img class='prod_img' src='../images/uploadFiles/"+path+"'> ";
 				}
 		});
 		
@@ -202,6 +202,12 @@
 		
 	});
 </script>
+<style type="text/css">
+	.prod_img{
+		height : 100px;
+		width : 100px;
+	}
+</style>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">

@@ -8,6 +8,7 @@
 <!-- <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  -->
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <!-- <script type="text/javascript" src="../javascript/calendar.js"></script> -->
 
 <script type="text/javascript">
 
@@ -74,6 +75,15 @@
 		$("input:text[name='manuDate']").datepicker().bind('change', function(){
 			$(this).val($(this).datepicker("option","dateFormat","yy-mm-dd").val());
 		});
+		
+		
+		/* $("img[src='../images/ct_icon_date.gif']").bind('click', function(){
+			console.log("달력클릭"+$(this).html());
+			popWin = window.open(show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value),
+					"popWin",
+					"left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
+		
+		}); */
 	});
 
 </script>
@@ -148,8 +158,8 @@
 		<td class="ct_write01">
 			<!-- <input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  
 						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
-				&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" 
-										onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/> -->
+				&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" />
+										onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)" -->
 			<input name="manuDate" type="text" class="ct_input_g"/>
 		</td>
 	</tr>
