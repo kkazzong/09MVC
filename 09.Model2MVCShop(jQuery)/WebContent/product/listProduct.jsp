@@ -141,7 +141,8 @@
 			self.location="/product/getProduct?prodNo="+$("input:hidden[name='pNo']",this).val()+"&menu=${param.menu}";
 		});  */
 		
-		$("a").bind('click', function(){
+		//<!-- 상품 상세조회-->
+		/* $("a").bind('click', function(){
 			var name = $(this).text().trim();
 			console.log(name);
 			
@@ -149,7 +150,29 @@
 			
 			//self.location="/product/getProduct?prodNo="+$($($(this).siblings('td'))[0]).text().trim()+"&menu=${param.menu}";
 			self.location="/product/getProduct?prodNo="+$("input:hidden[name='pNo']",this).val()+"&menu=${param.menu}";
-		}); 
+		});  */
+		
+		 $(".ct_list_pop td:nth-child(5)").bind('click', function(){
+			
+			 /* $("a").each(function(index, elem){
+				console.log("forEach==> index : "+index+" >> "+$(elem).text().trim()); 
+			 }); */
+			 
+			 
+			/* $(".ct_list_pop td:nth-child(5), .ct_list_pop td:nth-child(3)").each(function(index) {
+				 console.log("forEach==> index : "+index+" >> "+$(this).text().trim());
+					
+			 }); */ 
+			
+			 console.log($(this).find(".ct_list_pop").html());
+			 
+			/* $(this,".ct_list_pop td:nth-child(3)").each(function(index,elem){
+				 console.log("forEach==> index : "+index+" >> "+$(elem).html());
+			 }); */ 
+			 
+			 /* console.log("forEach==> index : "+$(this).text().trim());
+			 console.log(" : :>>"+$($(".ct_list_pop td:nth-child(3)")[0]).text().trim()); */
+		 });
 		
 		//<!-- file tootip -->
 		$("a").bind('mouseover', function(){
@@ -356,10 +379,10 @@
 					<c:forEach var="files" items="${product.fileName}">
 						<c:set var="file" value="${files}"/>
 					</c:forEach>
-					<a data-geo="${file}">
+					<%-- <a data-geo="${file}"> --%>
 					<input type="hidden" name="pNo" value="${product.prodNo }">
 					${product.prodName}
-					</a>
+					<!-- </a> -->
 					</td>
 					<td></td>
 				</c:when>
